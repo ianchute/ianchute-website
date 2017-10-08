@@ -140,17 +140,22 @@
 (secretary/defroute "/experiments" []
   (session/put! :page :experiments))
 
+(defn notebook-handler [data]
+  (.log js/console (.parse js/JSON data))
+  (js/setTimeout 
+    (fn[] (.appendChild 
+      (.getElementById js/document "notebook")
+        (.render (.parse js/nb (.parse js/JSON data)))
+      )
+    ) 150
+  )
+)
+
 (secretary/defroute "/notebook/:id" [id]
   (session/put! :page :notebook)
-  (.getJSON js/jQuery (str (js/atob id)) (fn [data] 
-    (js/setTimeout 
-      (fn[] (.appendChild 
-        (.getElementById js/document "notebook")
-          (.render (.parse js/nb data))
-        )
-      ) 150
-    )
-  ))
+  (GET (js/atob id) {
+    :handler notebook-handler
+  })
 )
 
 (secretary/defroute "/games" []
