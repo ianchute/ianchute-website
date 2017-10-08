@@ -24,14 +24,14 @@
         "Ian Chu Te"]
       [:ul.nav.navbar-nav
         [nav-link "#/" "Home" :home]
-        ; [nav-link "#/experiments" "Experiments" :experiments]
+        [nav-link "#/experiments" "Experiments" :experiments]
         ; [nav-link "#/games" "Games" :games]
         [nav-link "#/about" "About" :about]]]]))
 
 (defn home-page []
   [:div.container
     [:div.row.card-main
-      [:div.col-md-4.card-section
+      [:div.col-lg-4.col-md-5.col-sm-6.card-section
         [:p.speech.welcome "Welcome to my website!"]
         [:img.profile {:src (str js/context "/img/me.jpg")}]
         [:img.profile-sticker {:src (str js/context "/img/sticker.png")}] 
@@ -42,16 +42,18 @@
         [:h4 {:style {:text-align "justify"}} "This very website also showcases my web development skills. I built and designed it using the Luminus web framework."]
         [:h4 "Enjoy!"]
       ]
-      [:div.col-md-4.card-section.my-menu
+      [:div.col-lg-4.col-md-4.col-sm-3.card-section.my-menu
         [:h3 "My Work"]
-        [:a.disabled {:href "#/experiments"}
-          [:img {:src (str js/context "/img/experiments.png")}] "ML Experiments (coming soon)"]
+        [:a {:href "#/experiments"}
+          [:img {:src (str js/context "/img/experiments.png")}] "ML Experiments"]
         [:a.disabled {:href "#/games"}
           [:img {:src (str js/context "/img/games.png")}] "Games and AI (coming soon)"]
         [:a {:href "https://musescore.com/user/25292271"}
           [:img {:src (str js/context "/img/music.png")}] "Amateur Compositions"]
+        [:a {:href "https://www.kaggle.com/ianchute/datasets"}
+          [:img {:src (str js/context "/img/data.png")}] "Datasets"]
       ]
-      [:div.col-md-4.card-section.my-menu
+      [:div.col-lg-4.col-md-3.col-sm-3.card-section.my-menu
         [:h3 "Links"]
         [:a {:href "https://www.linkedin.com/in/ianchute/"} 
           [:img {:src (str js/context "/img/social/linkedin.png")}] "LinkedIn"]
@@ -93,18 +95,34 @@
 (defn experiments-page []
   [:div.container
     [:div.row
-    [:div.col-md-12]]])
+    [:div.col-md-12.card-section.my-menu
+      [:h3 "Machine Learning Experiments"]
+      [:a {:href 
+        "#/notebook/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lhbmNodXRlL2RvdGEyLWthZ2dsZS9tYXN0ZXIvZG90YTIta2FnZ2xlLmlweW5i"} 
+        [:img {:src (str js/context "/img/experiments/dota-2.png")}] "Predicting Dota 2 Wins"]
+      [:a {:href 
+        "#/notebook/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lhbmNodXRlL3RydW1wLXR3ZWV0ZXIvbWFzdGVyL3RydW1wLmlweW5i"} 
+        [:img {:src (str js/context "/img/experiments/trump.png")}] "Tweeting like Trump"]
+    ]]])
 
 (defn games-page []
   [:div.container
     [:div.row
     [:div.col-md-12]]])
 
+(defn notebook-page []
+  [:div.container
+    [:div.row
+    [:div#notebook.col-md-12
+  
+  ]]])
+
 (def pages
   {:home #'home-page
   :experiments #'experiments-page
   :games #'games-page
-  :about #'about-page})
+  :about #'about-page
+  :notebook #'notebook-page})
 
 (defn page []
   [(pages (session/get :page))])
@@ -121,6 +139,16 @@
 
 (secretary/defroute "/experiments" []
   (session/put! :page :experiments))
+
+(secretary/defroute "/notebook/:id" [id]
+  (session/put! :page :notebook)
+  (.getJSON js/jQuery (str (js/atob id)) (fn [data] 
+    (.appendChild 
+      (.getElementById js/document "notebook")
+        (.render (.parse js/nb data))
+    )
+  ))
+)
 
 (secretary/defroute "/games" []
   (session/put! :page :games))

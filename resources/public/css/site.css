@@ -41,11 +41,28 @@ body {
     animation: fadein 2s;
     max-width: 1140px;
     border-radius: 4px;
+    overflow-y: auto;
 }
 
 .my-name {
     margin-top: 28px;
     text-shadow: 2px 1px rgb(125, 245, 165);
+}
+
+.mobile-logo {
+    height: 50%;
+    margin: auto;
+    width: 50%;
+    display: block;
+    margin-top: 20%;
+}
+
+.mobile-text {
+    color: white;
+    text-shadow: 2px 1px rgb(125, 245, 165);
+    width: 100%;
+    text-align: center;
+    margin-top: 10%;
 }
 
 .disabled {
@@ -62,11 +79,14 @@ body {
 }
 
 .credits {
-    margin-top: -20px;
-    margin-right: 10px;
+    margin-top: -28px;
+    margin-right: 22px;
     float: right;
     font-size: 10px;
     position: relative;
+    background-color: rgba(125, 245, 165, 0.25);
+    padding: 3px;
+    opacity: 75%;
 }
 
 .profile {
@@ -223,6 +243,16 @@ padding: 20px 30px;
 background-color: white;
 position: relative;
 border-radius: 6px;
+}
+
+@media all and (max-width: 782px) {
+    .hidden-xs {
+        display: none !important;
+    }
+
+    .visible-xs {
+        display: block !important;
+    }
 }
 
 /* Media queries - Responsive timeline on screens less than 600px wide */

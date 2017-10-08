@@ -10,4 +10,8 @@
     var csrfToken = "{{csrf-token}}";
   </script>
   {% script "/js/app.js" %}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/0.3.6/marked.min.js" integrity="sha256-mJAzKDq6kSoKqZKnA6UNLtPaIj8zT2mFnWu/GSouhgQ=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/prism.min.js" integrity="sha256-57DltmTQ3GmQjo3qPXEdq11V+LQ569Z43xE3copn5Zs=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.8.1/components/prism-python.min.js" integrity="sha256-j+FbQpqA8n10XM3QkjA4cXEG94DXE1MDwDf+iFLFylk=" crossorigin="anonymous"></script>
+  {% script "/js/notebook.js" %}
 {% endblock %}

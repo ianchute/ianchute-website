@@ -1,7 +1,8 @@
 (ns website.routes.services
   (:require [ring.util.http-response :refer :all]
             [compojure.api.sweet :refer :all]
-            [schema.core :as s]))
+            [schema.core :as s]
+            [base64-clj.core :as base64]))
 
 (defapi service-routes
   {:swagger {:ui "/swagger-ui"
