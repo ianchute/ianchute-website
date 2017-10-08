@@ -143,9 +143,12 @@
 (secretary/defroute "/notebook/:id" [id]
   (session/put! :page :notebook)
   (.getJSON js/jQuery (str (js/atob id)) (fn [data] 
-    (.appendChild 
-      (.getElementById js/document "notebook")
-        (.render (.parse js/nb data))
+    (js/setTimeout 
+      (fn[] (.appendChild 
+        (.getElementById js/document "notebook")
+          (.render (.parse js/nb data))
+        )
+      ) 150
     )
   ))
 )
