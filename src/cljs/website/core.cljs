@@ -148,7 +148,7 @@
         (.getElementById js/document "notebook")
           (.render (.parse js/nb (.parse js/JSON data)))
       )
-      (.highlightAll js/Prism)
+      (js/Prism.highlightAll.)
     ) 150
   )
 )
