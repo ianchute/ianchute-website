@@ -1,0 +1,3 @@
+window.Prism = {
+    highlightAll: function() {}
+};
