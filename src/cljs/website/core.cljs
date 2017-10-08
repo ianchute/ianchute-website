@@ -143,10 +143,12 @@
 (defn notebook-handler [data]
   (.log js/console (.parse js/JSON data))
   (js/setTimeout 
-    (fn[] (.appendChild 
-      (.getElementById js/document "notebook")
-        (.render (.parse js/nb (.parse js/JSON data)))
+    (fn[] 
+      (.appendChild 
+        (.getElementById js/document "notebook")
+          (.render (.parse js/nb (.parse js/JSON data)))
       )
+      (.highlightAll js/Prism)
     ) 150
   )
 )
