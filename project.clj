@@ -71,6 +71,7 @@
                  {:externs-validation :off :non-standard-jsdoc :off}
                  :externs [
                      "react/externs/react.js"
+                     "externs/jQuery.js"
                      "externs/nb.js"
                      "externs/prism.js"]}}}}
              
