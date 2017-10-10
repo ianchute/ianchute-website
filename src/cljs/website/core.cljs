@@ -202,7 +202,6 @@
   (session/put! :page :compositions))
 
 (secretary/defroute "/music/:id" [id]
-  (js/console.log (js/atob id))
   (swap! music-url (constantly (js/atob id)))
   (session/put! :page :music))
 
