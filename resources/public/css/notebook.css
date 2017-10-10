@@ -11,20 +11,21 @@
 }
 
 #notebook:empty {
-    background: url(../img/loader.gif);
     height: 85vh;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 10%;
 }
 
 #notebook:empty::after {
+    background: url(../img/loader.gif);
     content: "Loading notebook...";
     display: block;
     text-align: center;
     font-size: 20px;
-    margin-top: 41vh;
-    margin-left: -6vh;
+    margin-top: 34vh;
+    margin-left: -1vh;
+    height: 20%;
+    background-size: 10%;
+    background-repeat: no-repeat;
+    background-position-x: 49.5%;
 }
 
 #notebook:not(:empty) > * {
