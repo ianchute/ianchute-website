@@ -40,7 +40,6 @@ body {
     height: 100%;
     animation: fadein 2s;
     max-width: 1140px;
-    border-radius: 4px;
     overflow-y: auto;
 }
 

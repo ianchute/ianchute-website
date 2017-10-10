@@ -9,6 +9,8 @@
             [ajax.core :refer [GET POST]])
   (:import goog.History))
 
+(def $ js/jQuery)
+
 (defn nav-link [uri title page]
   [:li.nav-item
    {:class (when (= page (session/get :page)) "active")}
@@ -108,14 +110,12 @@
 (defn games-page []
   [:div.container
     [:div.row
-    [:div.col-md-12]]])
+    [:div#game.col-md-12]]])
 
 (defn notebook-page []
   [:div.container
     [:div.row
-    [:div#notebook.col-md-12
-  
-  ]]])
+    [:div#notebook.col-md-12]]])
 
 (def pages
   {:home #'home-page
@@ -140,30 +140,37 @@
 (secretary/defroute "/experiments" []
   (session/put! :page :experiments))
 
+(def nicescroll-config 
+  #js {
+    :cursorwidth "12px"
+    :cursorcolor "rgb(46, 204, 113)"
+    :autohidemode false
+    :cursorborder "none"
+    :background "rgb(221, 221, 221)"
+    :cursorborderradius "0px"
+  })
+
+(defn nicescroll [id]
+  ($ (fn [] 
+    (.niceScroll ($ id) nicescroll-config))))
+
+(defn jsDefer [f] (js/setTimeout f))
+
 (defn notebook-handler [data]
-  (.log js/console (.parse js/JSON data))
-  (js/setTimeout 
-    (fn[] 
-      (.appendChild 
-        (.getElementById js/document "notebook")
-          (.render (.parse js/nb (.parse js/JSON data)))
-      )
-      (js/Prism.highlightAll)
-    ) 150
-  )
-)
+  (jsDefer (fn[] 
+    (.appendChild 
+      (js/document.getElementById "notebook")
+      (-> data js/JSON.parse js/nb.parse .render))
+    (js/Prism.highlightAll)
+    (nicescroll "#app > .container"))))
 
 (secretary/defroute "/notebook/:id" [id]
   (session/put! :page :notebook)
-  (GET (js/atob id) {
-    :handler notebook-handler
-  })
-)
+  (GET (js/atob id) { :handler notebook-handler }))
 
 (secretary/defroute "/games" []
   (session/put! :page :games))
   
-
 ;; -------------------------
 ;; History
 ;; must be called after routes have been defined
@@ -178,8 +185,8 @@
 ;; -------------------------
 ;; Initialize app
 (defn mount-components []
-  (r/render [#'navbar] (.getElementById js/document "navbar"))
-  (r/render [#'page] (.getElementById js/document "app")))
+  (r/render [#'navbar] (js/document.getElementById "navbar"))
+  (r/render [#'page] (js/document.getElementById "app")))
 
 (defn init! []
   (load-interceptors!)

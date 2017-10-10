@@ -71,8 +71,7 @@
                  {:externs-validation :off :non-standard-jsdoc :off}
                  :externs [
                      "react/externs/react.js"
-                     "externs/prism.js"
-                ]}}}}
+                     "externs/*.js"]}}}}
              
              :aot :all
              :uberjar-name "website.jar"

@@ -1,0 +1,3 @@
+window.nb = {
+    parse: function() {}
+};
