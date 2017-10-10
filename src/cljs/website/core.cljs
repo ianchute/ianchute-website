@@ -112,10 +112,12 @@
     [:div.row
     [:div#game.col-md-12]]])
 
+(defonce notebook-data (r/atom nil))
+
 (defn notebook-page []
   [:div.container
     [:div.row
-    [:div#notebook.col-md-12]]])
+    [:div#notebook.col-md-12 {:dangerouslySetInnerHTML #js{:__html @notebook-data}}]]])
 
 (def pages
   {:home #'home-page
@@ -151,18 +153,18 @@
   })
 
 (defn nicescroll [id]
-  (ready (fn [] 
-    (.niceScroll (js/jQuery id) nicescroll-config))))
+  (ready #(.niceScroll (js/jQuery id) nicescroll-config)))
 
 (defn notebook-handler [data]
   (ready (fn [] 
-    (.appendChild 
-      (js/document.getElementById "notebook")
-      (-> data js/JSON.parse js/nb.parse .render))
-    (js/Prism.highlightAll)
-    (nicescroll "#app > .container"))))
+    (swap! notebook-data
+      #(-> data js/JSON.parse js/nb.parse .render .-innerHTML))
+    (js/setTimeout (fn []
+      (js/Prism.highlightAll)
+      (nicescroll "#app > .container")) 100))))
 
 (secretary/defroute "/notebook/:id" [id]
+  (swap! notebook-data (constantly nil))
   (session/put! :page :notebook)
   (GET (js/atob id) { :handler notebook-handler }))
 
