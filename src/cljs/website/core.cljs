@@ -9,8 +9,6 @@
             [ajax.core :refer [GET POST]])
   (:import goog.History))
 
-(def $ js/jQuery)
-
 (defn nav-link [uri title page]
   [:li.nav-item
    {:class (when (= page (session/get :page)) "active")}
@@ -151,8 +149,8 @@
   })
 
 (defn nicescroll [id]
-  ($ (fn [] 
-    (.niceScroll ($ id) nicescroll-config))))
+  (js/jQuery (fn [] 
+    (.niceScroll (js/jQuery id) nicescroll-config))))
 
 (defn jsDefer [f] (js/setTimeout f))
 
