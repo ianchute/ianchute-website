@@ -9,6 +9,8 @@
             [ajax.core :refer [GET POST]])
   (:import goog.History))
 
+(defn ready [f] (.ready (js/$ js/document) f))
+
 (defn nav-link [uri title page]
   [:li.nav-item
    {:class (when (= page (session/get :page)) "active")}
@@ -149,13 +151,11 @@
   })
 
 (defn nicescroll [id]
-  (js/jQuery (fn [] 
+  (ready (fn [] 
     (.niceScroll (js/jQuery id) nicescroll-config))))
 
-(defn jsDefer [f] (js/setTimeout f))
-
 (defn notebook-handler [data]
-  (jsDefer (fn[] 
+  (ready (fn [] 
     (.appendChild 
       (js/document.getElementById "notebook")
       (-> data js/JSON.parse js/nb.parse .render))
