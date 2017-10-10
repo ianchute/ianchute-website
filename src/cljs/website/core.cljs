@@ -27,6 +27,7 @@
       [:ul.nav.navbar-nav
         [nav-link "#/" "Home" :home]
         [nav-link "#/experiments" "Experiments" :experiments]
+        [nav-link "#/compositions" "Compositions" :compositions]
         ; [nav-link "#/games" "Games" :games]
         [nav-link "#/about" "About" :about]]]]))
 
@@ -50,7 +51,7 @@
           [:img {:src (str js/context "/img/experiments.png")}] "ML Experiments"]
         [:a.disabled {:href "#/games"}
           [:img {:src (str js/context "/img/games.png")}] "Games and AI (coming soon)"]
-        [:a {:href "https://musescore.com/user/25292271"}
+        [:a {:href "#/compositions"}
           [:img {:src (str js/context "/img/music.png")}] "Amateur Compositions"]
         [:a {:href "https://www.kaggle.com/ianchute/datasets"}
           [:img {:src (str js/context "/img/data.png")}] "Datasets"]
@@ -118,11 +119,40 @@
   [:div.container
     [:div.row
     [:div#notebook.col-md-12 {:dangerouslySetInnerHTML #js{:__html @notebook-data}}]]])
+    ; <iframe width="100%" height="90%" src="https://musescore.com/user/25292271/scores/4691681/embed" frameborder="0" allowfullscreen></iframe>
+
+(defn compositions-page []
+  [:div.container
+    [:div.row
+    [:div.col-md-12.card-section.my-menu
+      [:h3 "Compositions"]
+      [:a {:href 
+        (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4583261/embed"))} 
+        [:img {:src (str js/context "/img/music.png")}] "Elegy in D Minor"]
+      [:a {:href 
+        (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4691681/embed"))} 
+        [:img {:src (str js/context "/img/music.png")}] "Rhapsody for Viola and Piano in A Minor"]
+      [:a {:href 
+        (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4582351/embed"))} 
+        [:img {:src (str js/context "/img/music.png")}] "An Ode to Silence"]
+    ]]])
+
+(defonce music-url (r/atom ""))
+
+(defn music-page []
+  [:iframe#music {
+    :width "100%"
+    :height "100%"
+    :frameBorder 0
+    :allowFullScreen true
+    :src @music-url}])
 
 (def pages
   {:home #'home-page
   :experiments #'experiments-page
   :games #'games-page
+  :compositions #'compositions-page
+  :music #'music-page
   :about #'about-page
   :notebook #'notebook-page})
 
@@ -167,6 +197,14 @@
   (swap! notebook-data (constantly nil))
   (session/put! :page :notebook)
   (GET (js/atob id) { :handler notebook-handler }))
+
+(secretary/defroute "/compositions" []
+  (session/put! :page :compositions))
+
+(secretary/defroute "/music/:id" [id]
+  (js/console.log (js/atob id))
+  (swap! music-url (constantly (js/atob id)))
+  (session/put! :page :music))
 
 (secretary/defroute "/games" []
   (session/put! :page :games))

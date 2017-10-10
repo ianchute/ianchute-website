@@ -318,3 +318,7 @@ button > img, a > img {
 .card-section:not(:last-child) {
     border-right: 2px solid rgb(125, 245, 165);
 }
+
+#music {
+    padding: 3%;
+}
