@@ -101,10 +101,10 @@
     [:div.col-md-12.card-section.my-menu
       [:h3 "Machine Learning Experiments"]
       [:a {:href 
-        "#/notebook/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lhbmNodXRlL2RvdGEyLWthZ2dsZS9tYXN0ZXIvZG90YTIta2FnZ2xlLmlweW5i"} 
+        (str "#/notebook/" (js/btoa "https://raw.githubusercontent.com/ianchute/dota2-kaggle/master/dota2-kaggle.ipynb"))} 
         [:img {:src (str js/context "/img/experiments/dota-2.png")}] "Predicting Dota 2 Wins"]
       [:a {:href 
-        "#/notebook/aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2lhbmNodXRlL3RydW1wLXR3ZWV0ZXIvbWFzdGVyL3RydW1wLmlweW5i"} 
+        (str "#/notebook/" (js/btoa "https://raw.githubusercontent.com/ianchute/trump-tweeter/master/trump.ipynb"))} 
         [:img {:src (str js/context "/img/experiments/trump.png")}] "Tweeting like Trump"]
     ]]])
 
@@ -119,7 +119,6 @@
   [:div.container
     [:div.row
     [:div#notebook.col-md-12 {:dangerouslySetInnerHTML #js{:__html @notebook-data}}]]])
-    ; <iframe width="100%" height="90%" src="https://musescore.com/user/25292271/scores/4691681/embed" frameborder="0" allowfullscreen></iframe>
 
 (defn compositions-page []
   [:div.container
@@ -187,14 +186,14 @@
 
 (defn notebook-handler [data]
   (ready (fn [] 
-    (swap! notebook-data
-      #(-> data js/JSON.parse js/nb.parse .render .-innerHTML))
+    (reset! notebook-data
+      (-> data js/JSON.parse js/nb.parse .render .-innerHTML))
     (js/setTimeout (fn []
       (js/Prism.highlightAll)
       (nicescroll "#app > .container")) 100))))
 
 (secretary/defroute "/notebook/:id" [id]
-  (swap! notebook-data (constantly nil))
+  (reset! notebook-data nil)
   (session/put! :page :notebook)
   (GET (js/atob id) { :handler notebook-handler }))
 
@@ -202,7 +201,7 @@
   (session/put! :page :compositions))
 
 (secretary/defroute "/music/:id" [id]
-  (swap! music-url (constantly (js/atob id)))
+  (reset! music-url (js/atob id))
   (session/put! :page :music))
 
 (secretary/defroute "/games" []

@@ -14,6 +14,10 @@
   (context "/api" []
     :tags ["thingie"]
 
+    (GET "/mirror/:url" [url]
+      :return       String
+      (ok (-> url base64/decode slurp)))
+
     (GET "/plus" []
       :return       Long
       :query-params [x :- Long, {y :- Long 1}]
