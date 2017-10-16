@@ -129,6 +129,9 @@
         (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4583261/embed"))} 
         [:img {:src (str js/context "/img/music.png")}] "Elegy in D Minor"]
       [:a {:href 
+        (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4724766/embed"))} 
+        [:img {:src (str js/context "/img/music.png")}] "Elegy in F# Minor \"Rain Dance\""]
+      [:a {:href 
         (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4691681/embed"))} 
         [:img {:src (str js/context "/img/music.png")}] "Rhapsody for Viola and Piano in A Minor"]
       [:a {:href 
