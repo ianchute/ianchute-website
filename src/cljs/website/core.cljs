@@ -77,6 +77,18 @@
 
 (defn about-page []
   [:div.timeline
+    [:div.container.right
+      [:div.content
+        [:h2 "2020"]
+        [:p "-"]]]
+    [:div.container.left
+      [:div.content
+        [:h2 "2019"]
+        [:p "-"]]]
+    [:div.container.right
+      [:div.content
+        [:h2 "2018"]
+        [:p "-"]]]
     [:div.container.left
       [:div.content
         [:h2 "2017"]
@@ -106,7 +118,25 @@
       [:a {:href 
         (str "#/notebook/" (js/btoa "https://raw.githubusercontent.com/ianchute/trump-tweeter/master/trump.ipynb"))} 
         [:img {:src (str js/context "/img/experiments/trump.png")}] "Tweeting like Trump"]
-    ]]])
+    ]]
+
+    [:div.row
+    [:div.col-md-12.card-section.my-menu
+      [:h3 "GitHub Projects"]
+      [:a {:href "https://github.com/ianchute/LambdaML"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "LambdaML: A lambda-based machine learning library"]
+      [:a {:href "https://github.com/ianchute/shapley-attribution-model"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "Shapley Value Methods for Attribution Modeling"]
+      [:a {:href "https://github.com/ianchute/goalpost-detector"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "Goalpost Detector: Using traditional CV techniques"]
+      [:a {:href "https://github.com/ianchute/extract_image_data"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "Images2CSV: Fast multithreaded script for converting a large number of images to CSV data"]
+      [:a {:href "https://github.com/ianchute/toady"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "toady: Easily visualize high-dimensional data in 2d space"]
+      [:a {:href "https://github.com/ianchute/StockCache/blob/master/chutychart.js"} 
+        [:img {:src (str js/context "/img/social/github.png")}] "chutychart.js: A stock data graphing and analysis library"]
+    ]]
+  ])
 
 (defn games-page []
   [:div.container
@@ -125,6 +155,12 @@
     [:div.row
     [:div.col-md-12.card-section.my-menu
       [:h3 "Compositions"]
+      [:a {:href "https://www.youtube.com/watch?v=0bhL6w0ueuw"} 
+        [:img {:src (str js/context "/img/music.png")}] "Wilted Roses"]
+      [:a {:href "https://www.youtube.com/watch?v=IQZD-bu7dhE"} 
+        [:img {:src (str js/context "/img/music.png")}] "Frozen Lake"]
+      [:a {:href "https://www.youtube.com/watch?v=m0nvlX4sl4c"} 
+        [:img {:src (str js/context "/img/music.png")}] "An Empty Epiphany"]
       [:a {:href 
         (str "#/music/" (js/btoa "https://musescore.com/user/25292271/scores/4583261/embed"))} 
         [:img {:src (str js/context "/img/music.png")}] "Elegy in D Minor"]
